@@ -1,1 +1,1 @@
-# PokeMeistro - The easy way to catch 'em all.
+# PokeMeistro - The easy platform independent way to catch 'em all.
