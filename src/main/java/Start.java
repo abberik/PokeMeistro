@@ -14,8 +14,6 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -44,7 +42,12 @@ public class Start {
 		new Start();
 	}
 
-	private GraphicUI logger;
+	private static GraphicUI logger;
+
+	public static GraphicUI getLogger() {
+		return logger;
+	}
+
 	private AbstractAction exit  = new AbstractAction(){
 
 		/**
@@ -72,107 +75,32 @@ public class Start {
 	
 	private String refreshToken = "";
 	
-	private double latitude;
-	private double longitude;
-	private double altitude = 0; //default altitude
+	private static double latitude;
+	private static double longitude;
+
+	public static double[] getCoords() {
+		return new double[] {latitude, longitude, altitude};
+	}
+
+	private static double altitude = 0; //default altitude
 	
-	private PokemonGo pokemonGo;
+	private static PokemonGo pokemonGo;
+
+	public static PokemonGo getPokemonGo() {
+		return pokemonGo;
+	}
+
 	private OkHttpClient httpClient;
 	
 	private final String saveFile = "save.txt";
 	
 	private Thread walkerThread;
-	private Runnable walk =  new Runnable(){
+	private Runnable walk = new Walker();
 
-		@Override
-		public void run() {
-			
-			
-			while(true){
-				
-				//generera acceleration i latitud och longitud.
-				double latacc = -0.000006 + (0.000012 * random.nextDouble());
-				double lonacc = -0.000006 + (0.000012 * random.nextDouble());
-				
-				latOffset += latacc;
-				lonOffset += lonacc;
-				
-				pokemonGo.setLocation(latitude + latOffset, longitude + lonOffset, altitude);
-				
-				try {
-					Thread.sleep(250);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				
-				
-				
-			}
-			
-		}
-		
-	};
-	
-	private double latOffset,lonOffset;
-	
-	private Random random;
-
-	private Runnable pokeHunter = new Runnable(){
-
-		@Override
-		public void run() {
-		
-			try {
-				
-				List<CatchablePokemon> pokemons = pokemonGo.getMap().getCatchablePokemon();
-				logger.log("" + pokemons.size());
-				
-				for(CatchablePokemon pokemon : pokemons){
-					
-					
-					// You need to Encounter first.
-					EncounterResult encResult = pokemon.encounterPokemon();
-					// if encounter was succesful, catch
-					if (encResult.wasSuccessful()) {
-						logger.log("Encounted:" + pokemon.getPokemonId());
-						CatchResult result = pokemon.catchPokemonWithRazzBerry();
-						logger.log("Attempt to catch:" + pokemon.getPokemonId() + " " + result.getStatus());
-					}
-					
-					
-					try {
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-			} catch (LoginFailedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (RemoteServerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
-			try {
-				Thread.sleep(320);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		
-		
-		
-	};
+	private Runnable pokeHunter = new PokeHunter();
 	private Thread pokeHunterThread;
 		
 	public Start() {
-
-		random = new Random();
 		
 		logger = new GraphicUI("PokeMeistro - botting for plebs!",exit);
 				
@@ -203,7 +131,6 @@ public class Start {
 		
 		httpClient = new OkHttpClient();
 		if(googleAuth){
-			
 			pokemonGo = googleAuth();
 			
 		}else{
@@ -493,4 +420,4 @@ class GraphicUI extends JFrame{
 		
 	}
 	
-	}
+}
