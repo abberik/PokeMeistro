@@ -1,31 +1,4 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Desktop;
-import java.awt.event.ActionEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.time.Instant;
-import java.util.ArrayList;
-
-import javax.swing.AbstractAction;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-
 import com.pokegoapi.api.PokemonGo;
-import com.pokegoapi.api.map.pokemon.CatchResult;
-import com.pokegoapi.api.map.pokemon.CatchablePokemon;
-import com.pokegoapi.api.map.pokemon.EncounterResult;
 import com.pokegoapi.auth.GoogleAuthJson;
 import com.pokegoapi.auth.GoogleAuthTokenJson;
 import com.pokegoapi.auth.GoogleCredentialProvider;
@@ -33,8 +6,16 @@ import com.pokegoapi.auth.GoogleCredentialProvider.OnGoogleLoginOAuthCompleteLis
 import com.pokegoapi.auth.PtcCredentialProvider;
 import com.pokegoapi.exceptions.LoginFailedException;
 import com.pokegoapi.exceptions.RemoteServerException;
-
 import okhttp3.OkHttpClient;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.util.ArrayList;
 
 public class Start {
 
