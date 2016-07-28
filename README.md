@@ -1,1 +1,1 @@
-# PokeMeistro - The easy way to play pokemon go.
+# PokeMeistro - The easy way to catch 'em all.
