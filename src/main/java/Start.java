@@ -82,13 +82,17 @@ public class Start {
 	private Thread pokeHunterThread;
 		
 	public Start() {
-		
+
 		logger = new GraphicUI("PokeMeistro - botting for plebs!",exit);
 				
 		
 		
 		load(saveFile);
-		
+
+		/*
+
+		Old code to verify the location of the player, seems to have some problems on linux operating systems.
+
 		try {
 			Desktop.getDesktop().browse(new URI("https://www.google.se/maps/@" + latitude + "," + longitude + "15,25z"));
 			
@@ -108,7 +112,7 @@ public class Start {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+		*/
 		
 		httpClient = new OkHttpClient();
 		if(googleAuth){
@@ -125,11 +129,14 @@ public class Start {
 		threads.add(walkerThread);
 		walkerThread.start();
 		
-		
+
+
+
+
 		pokeHunterThread = new Thread(pokeHunter);
 		threads.add(pokeHunterThread);
 		pokeHunterThread.start();
-		
+
 		
 		
 		
@@ -342,7 +349,12 @@ public class Start {
 
 	    return 6366000*tt;
 	}
-	
+
+	public static void log(String text){
+
+		Start.getLogger().log(text);
+
+	}
 	
 }
 
