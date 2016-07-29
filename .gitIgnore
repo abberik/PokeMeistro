@@ -1,0 +1,7 @@
+save.txt
+.idea/*
+.settings/*
+build/*
+.classpath
+.project
+
