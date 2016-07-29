@@ -1,6 +1,0 @@
-Use google authentication:false
-Google refresh token (leave this line, program fixes this line automatically):none
-latitude to start on:59.333343
-longitud to start on:18.044804
-pokemon trainers club username:jutnar_91
-pokemon trainers club password:losenord88
