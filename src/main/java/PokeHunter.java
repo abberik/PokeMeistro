@@ -1,5 +1,7 @@
-import com.pokegoapi.api.map.Map;
+import com.pokegoapi.api.map.MapObjects;
 import com.pokegoapi.api.map.Point;
+import com.pokegoapi.api.map.fort.Pokestop;
+import com.pokegoapi.api.map.fort.PokestopLootResult;
 import com.pokegoapi.api.map.pokemon.CatchResult;
 import com.pokegoapi.api.map.pokemon.CatchablePokemon;
 import com.pokegoapi.api.map.pokemon.EncounterResult;
@@ -7,6 +9,7 @@ import com.pokegoapi.api.map.pokemon.NearbyPokemon;
 import com.pokegoapi.exceptions.LoginFailedException;
 import com.pokegoapi.exceptions.RemoteServerException;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,7 +22,9 @@ public class PokeHunter implements Runnable {
         while(true){
             informAboutNearbyPokemon();     //doesn't seem to find anything ever.
             findPokemonsAndCatchThem();     //doesn't seem to find anything ever.
-            findSpawnPointsOnMap();         //Finds thousands of spawn points, WTF is a "spawnpoint"? D:
+            // findSpawnPointsOnMap();         //Finds 700  spawn points, WTF is a "spawnpoint"? D:
+            // findPokeStopsInfo();         //finds pokestops succesfully
+            lootNearestPokeStop();
             //chill for a bit to avoid soft-ban
             try {
                 Thread.sleep(2500);
@@ -98,14 +103,63 @@ public class PokeHunter implements Runnable {
 
             List<Point> spawnPunkter = Start.getPokemonGo().getMap().getSpawnPoints();
             Start.log("Found " + spawnPunkter.size() + " spawn points.");
+
             for(Point p : spawnPunkter){
                 Start.log("Spawn point on longitude: " + p.getLongitude() + " latitude: " + p.getLatitude());
             }
+
+
+
 
         }catch(LoginFailedException lfex){
             lfex.printStackTrace();
         }catch (RemoteServerException rsex){
             rsex.printStackTrace();
+        }
+
+
+    }
+
+    public void findPokeStopsInfo(){
+        MapObjects mo = null;
+        try {
+            mo = Start.getPokemonGo().getMap().getMapObjects();
+            Collection<Pokestop> pokestops = mo.getPokestops();
+            Start.log("Found " + pokestops.size() + " pokestops");
+            for(Pokestop pokestop : pokestops){
+                Start.log("Found pokestop " + pokestop.getId() + " at  lat " + pokestop.getLatitude() + "  lon " + pokestop.getLongitude());
+
+            }
+        } catch (LoginFailedException e) {
+            e.printStackTrace();
+        } catch (RemoteServerException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void lootNearestPokeStop(){
+
+        try {
+            int i = 0;
+            Pokestop pokestop = null;
+            for(Pokestop p : Start.getPokemonGo().getMap().getMapObjects().getPokestops()){
+                i++;
+                pokestop = p;
+                if(i == 1) break;
+            }
+            Start.log("Pokestoppet kan aktiveras: " + pokestop.canLoot());
+            if(pokestop.canLoot()){
+                PokestopLootResult lootres = pokestop.loot();
+                System.out.println("Gained " + lootres.getExperience());
+            }
+
+
+        } catch (LoginFailedException e) {
+            e.printStackTrace();
+        } catch (RemoteServerException e) {
+            e.printStackTrace();
         }
 
 
