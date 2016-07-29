@@ -1,0 +1,9 @@
+
+Longitude:18.044946
+Latitude:59.333766
+ID:da404892dce5480482e383009559f3b8.16
+Name:Friskvård
+Description:
+IMGURL:[http://lh4.ggpht.com/LdvQmwZV2-fnz1q0FtNElNw_NHupDb22HluMbn0y1xt8Bwk2Pot_FecdJCmSepQLl2uMmidWMflmQWTVY5Yl]
+Fort sponsor name:UNSET_SPONSOR
+fort sponsor number:0

@@ -1,0 +1,9 @@
+
+Longitude:18.045105
+Latitude:59.333392
+ID:8ddec0c75c7b4d3bbb7687d9ee7d4c52.16
+Name:The Dancing Baffoons
+Description:
+IMGURL:[http://lh5.ggpht.com/5I82DWTza93dWFpWuPbehFQvVfSN31nl9VQR3Ca48tqo5wJOKrryVrlfEphZSPD0CSuGQyEU0BJDwD7BL1o]
+Fort sponsor name:UNSET_SPONSOR
+fort sponsor number:0

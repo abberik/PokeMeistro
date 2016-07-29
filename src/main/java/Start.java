@@ -355,6 +355,14 @@ public class Start {
 		Start.getLogger().log(text);
 
 	}
+
+	public void stopAndGoTo(double latitude, double longitude){
+
+		walkerThread.interrupt();
+		getPokemonGo().setLatitude(latitude);
+		getPokemonGo().setLongitude(longitude);
+
+	}
 	
 }
 

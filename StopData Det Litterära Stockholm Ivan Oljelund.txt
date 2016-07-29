@@ -1,0 +1,9 @@
+
+Longitude:18.04611
+Latitude:59.332781
+ID:d7867fccf55043af8b6cd6076b449178.16
+Name:Det Litterära Stockholm Ivan Oljelund
+Description:
+IMGURL:[http://lh6.ggpht.com/eDbE0xrTEp6DuJl_Xlp1flfvM7ZaX91YppsqHOgzKz62-SV3M4RuYtLOPn74V_kwN6qMVsMkjm2bYdysdrLAvw]
+Fort sponsor name:UNSET_SPONSOR
+fort sponsor number:0

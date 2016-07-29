@@ -1,0 +1,9 @@
+
+Longitude:18.045115
+Latitude:59.333607
+ID:d3bb27659abb4e2f9c7fdf9630283711.16
+Name:Trygg Hansa
+Description:
+IMGURL:[http://lh5.ggpht.com/uayGQjspbyQdSmg7sXhK2jlGtce7j56NHZpajkfJUdpEMLuAwd6pjQwcjuID-GD7yEbBNOhohSgGDPcgnt7l]
+Fort sponsor name:UNSET_SPONSOR
+fort sponsor number:0

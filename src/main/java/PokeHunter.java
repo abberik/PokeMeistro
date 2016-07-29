@@ -1,3 +1,4 @@
+import POGOProtos.Map.Pokemon.MapPokemonOuterClass;
 import com.pokegoapi.api.map.MapObjects;
 import com.pokegoapi.api.map.Point;
 import com.pokegoapi.api.map.fort.Pokestop;
@@ -9,8 +10,13 @@ import com.pokegoapi.api.map.pokemon.NearbyPokemon;
 import com.pokegoapi.exceptions.LoginFailedException;
 import com.pokegoapi.exceptions.RemoteServerException;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Rickard on 2016-07-28.
@@ -20,11 +26,12 @@ public class PokeHunter implements Runnable {
     public void run() {
 
         while(true){
-            informAboutNearbyPokemon();     //doesn't seem to find anything ever.
-            findPokemonsAndCatchThem();     //doesn't seem to find anything ever.
+            //informAboutNearbyPokemon();     //doesn't seem to find anything ever.
+            //findPokemonsAndCatchThem();     //doesn't seem to find anything ever.
             // findSpawnPointsOnMap();         //Finds 700  spawn points, WTF is a "spawnpoint"? D:
             // findPokeStopsInfo();         //finds pokestops succesfully
             lootNearestPokeStop();
+            findPokemonFromMapObjects();
             //chill for a bit to avoid soft-ban
             try {
                 Thread.sleep(2500);
@@ -142,19 +149,76 @@ public class PokeHunter implements Runnable {
     public void lootNearestPokeStop(){
 
         try {
-            int i = 0;
-            Pokestop pokestop = null;
+
             for(Pokestop p : Start.getPokemonGo().getMap().getMapObjects().getPokestops()){
-                i++;
-                pokestop = p;
-                if(i == 1) break;
-            }
-            Start.log("Pokestoppet kan aktiveras: " + pokestop.canLoot());
-            if(pokestop.canLoot()){
-                PokestopLootResult lootres = pokestop.loot();
-                System.out.println("Gained " + lootres.getExperience());
+
+
+                double distance = Start.coordsToMeters((float)p.getLatitude(),(float)p.getLongitude(),(float)Start.getPokemonGo().getLatitude(),(float)Start.getPokemonGo().getLongitude());
+                if(distance < 100){
+
+                    Random random = new Random();
+
+                    double latrand = -0.000006 + (0.000012 * random.nextDouble());
+                    double lonrand = -0.000006 + (0.000012 * random.nextDouble());
+
+                    Start.getPokemonGo().setLatitude(p.getLatitude() + latrand);
+                    Start.getPokemonGo().setLongitude(p.getLongitude() + lonrand);
+
+                    boolean success = false;
+                    for(int j = 0; j < 10; j++){
+                        if(p.canLoot()){
+                            PokestopLootResult lootres = p.loot();
+                            Start.log("Gained " + lootres.getExperience() + "xp , tostring:" + lootres.toString());
+
+                            /*if(lootres.wasSuccessful()){
+                                //spara stopdata
+                                try {
+                                    BufferedWriter bw = new BufferedWriter(new FileWriter("StopData " + p.getDetails().getName() + ".txt" ));
+                                    bw.write("\nLongitude:" + p.getLongitude());
+                                    bw.write("\nLatitude:" + p.getLatitude());
+                                    bw.write("\nID:" + p.getId());
+                                    bw.write("\nName:" + p.getDetails().getName());
+                                    bw.write("\nDescription:" + p.getDetails().getDescription());
+                                    bw.write("\nIMGURL:" + p.getDetails().getImageUrl());
+                                    bw.write("\nFort sponsor name:" + p.getFortData().getSponsor().name());
+                                    bw.write("\nfort sponsor number:" + p.getFortData().getSponsor().getNumber());
+                                    bw.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+
+                            }*/
+
+                            success = true;
+
+                            break;
+                        }
+                    }
+                    if(success)break;
+                }
             }
 
+
+
+
+        } catch (LoginFailedException e) {
+            e.printStackTrace();
+        } catch (RemoteServerException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void findPokemonFromMapObjects(){
+
+        try {
+            Collection<MapPokemonOuterClass.MapPokemon> catchablePokemons = Start.getPokemonGo().getMap().getMapObjects().getCatchablePokemons();
+            Start.log("Found " + catchablePokemons.size() + " pokemons.");
+            for(MapPokemonOuterClass.MapPokemon poke : catchablePokemons){
+                Start.log("Found a " + poke.getPokemonId());
+            }
 
         } catch (LoginFailedException e) {
             e.printStackTrace();
