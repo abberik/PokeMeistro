@@ -17,7 +17,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
-public class Start {
+public class PokeMeistro {
 
 	public static void main(String[] args) {
 		new Start();
@@ -46,7 +46,13 @@ public class Start {
 		}
 		
 	};
-	
+
+	private int mode;
+
+	public static final int ITEM_MODE = 1;
+	public static final int NORMAL_MODE = 2;
+	public static final int SNIPE_MODE = 3;	//to throw an exception since not implemented.
+
 	private ArrayList<Thread> threads = new ArrayList<Thread>();
 	
 	private boolean googleAuth;
@@ -81,7 +87,7 @@ public class Start {
 	private Runnable pokeHunter = new PokeHunter();
 	private Thread pokeHunterThread;
 		
-	public Start() {
+	public PokeMeistro() {
 
 		logger = new GraphicUI("PokeMeistro - botting for plebs!",exit);
 				
@@ -163,7 +169,9 @@ public class Start {
 				longitude = Double.parseDouble(br.readLine().split(":")[1]);	//4
 				ptcusername = br.readLine().split(":")[1];						//5
 				ptcpassword = br.readLine().split(":")[1];						//6
-				
+				mode = Integer.parseInt(br.readLine().split(":"));				//7 
+				br.close();
+
 			}catch(ArrayIndexOutOfBoundsException ex){
 				
 				System.err.println("Text part missing in the save file, please control the file.");
@@ -233,7 +241,7 @@ public class Start {
 			bw.write("longitud to start on:" + longitudeString  + "\n");		//4
 			bw.write("pokemon trainers club username:" + ptcusername + "\n");	//5
 			bw.write("pokemon trainers club password:" + ptcpassword + "\n");	//6
-			
+			bw.write("PokeMeistro mode (1=item only    2=normal):" + mode + "\n")	//7
 			bw.close();
 			
 		} catch (IOException e) {
@@ -356,11 +364,7 @@ public class Start {
 
 	}
 
-	public void stopAndGoTo(double latitude, double longitude){
-
-		walkerThread.interrupt();
-		getPokemonGo().setLatitude(latitude);
-		getPokemonGo().setLongitude(longitude);
+	public void goTo(){
 
 	}
 	

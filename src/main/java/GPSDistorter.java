@@ -3,7 +3,12 @@ import java.util.Random;
 /**
  * Created by Rickard on 2016-07-28.
  */
-public class Walker implements Runnable {
+public class GPSDistorter implements Runnable {
+
+    /*
+        The purpose of this class is to fake the randomness in error of the GPS signal.
+        I suspect that it will be detectable with a dead on perfect gps position every time.
+     */
 
     private Random random = new Random();
     private double latOffset;
