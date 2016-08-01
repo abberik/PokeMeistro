@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class PokeMeistro {
 
 	public static void main(String[] args) {
-		new Start();
+		new PokeMeistro();
 	}
 
 	private static GraphicUI logger;
@@ -82,7 +82,7 @@ public class PokeMeistro {
 	private final String saveFile = "save.txt";
 	
 	private Thread walkerThread;
-	private Runnable walk = new Walker();
+	private Runnable walk = new GPSDistorter();
 
 	private Runnable pokeHunter = new PokeHunter();
 	private Thread pokeHunterThread;
@@ -169,7 +169,7 @@ public class PokeMeistro {
 				longitude = Double.parseDouble(br.readLine().split(":")[1]);	//4
 				ptcusername = br.readLine().split(":")[1];						//5
 				ptcpassword = br.readLine().split(":")[1];						//6
-				mode = Integer.parseInt(br.readLine().split(":"));				//7 
+				mode = Integer.parseInt(br.readLine().split(":")[1]);				//7
 				br.close();
 
 			}catch(ArrayIndexOutOfBoundsException ex){
@@ -241,7 +241,7 @@ public class PokeMeistro {
 			bw.write("longitud to start on:" + longitudeString  + "\n");		//4
 			bw.write("pokemon trainers club username:" + ptcusername + "\n");	//5
 			bw.write("pokemon trainers club password:" + ptcpassword + "\n");	//6
-			bw.write("PokeMeistro mode (1=item only    2=normal):" + mode + "\n")	//7
+			bw.write("PokeMeistro mode (1=item only    2=normal):" + mode + "\n");//7
 			bw.close();
 			
 		} catch (IOException e) {
@@ -360,11 +360,20 @@ public class PokeMeistro {
 
 	public static void log(String text){
 
-		Start.getLogger().log(text);
+		PokeMeistro.getLogger().log(text);
 
 	}
 
-	public void goTo(){
+	public void goTo(double targetLatitude, double targetLongitude){
+
+		double currentLatitude = pokemonGo.getLatitude();
+		double currentLongitude = pokemonGo.getLatitude();
+
+		double distance = coordsToMeters((float)currentLatitude,(float)currentLongitude,(float)targetLatitude,(float)targetLongitude); //in meters
+
+		//dela upp avstandet i steg.
+
+		
 
 	}
 	
